@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
-export default function Free() {
+export default function Booking() {
+    const navigate = useNavigate()
     const { id } = useParams();
     const [parkingLot, setParkingLot] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
@@ -23,18 +25,9 @@ export default function Free() {
 
     const handleSlotSelection = (floorIndex, slotIndex) => {
         const updatedParkingLot = { ...parkingLot };
-        const currentSlotsAvailable = updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable;
-        if (currentSlotsAvailable < 100) {
-            updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable++;
-            setParkingLot(updatedParkingLot);
-            setSelectedSlot({ floorIndex, slotIndex });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "You have reached maximum slots!",
-              });
-        }
+        updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable--;
+        setParkingLot(updatedParkingLot);
+        setSelectedSlot({ floorIndex, slotIndex });
     };
 
     const handleSubmit = async () => {
@@ -44,9 +37,10 @@ export default function Free() {
             // Update parking lot state with the response data
             console.log(response.data)
             setParkingLot(response.data);
+            navigate("/")
             Swal.fire({
-                title: "Slots deallotted!",
-                text: "Welcome again!",
+                title: "Slots allotted!",
+                text: "",
                 icon: "success"
               });
         } catch (error) {
@@ -56,25 +50,25 @@ export default function Free() {
 
     return (
         <div>
-            <h1>Free slot page</h1>
+            <h1 >Booking page</h1>
             {parkingLot && (
                 <div>
                     <h2>{parkingLot.name}</h2>
                     <p>Location: {parkingLot.location}</p>
                     <p>Floors:</p>
                     <ul>
-                        {parkingLot.floors.map((floor, floorIndex) => (
-                            <li key={floorIndex}>
-                                <h3>Floor {floor.floorNumber}</h3>
-                                <ul>
-                                    {floor.slots.map((slot, slotIndex) => (
-                                        <li key={slotIndex} style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ marginRight: '10px' }}>
-                                                <p>Size: {slot.size}</p>
-                                                <p>Slots Available: {slot.slotsAvailable}</p>
-                                            </div>
-                                            <button className='btn btn-warning' onClick={() => handleSlotSelection(floorIndex, slotIndex)}>Free Slot</button>
-                                        </li>
+                    {parkingLot.floors.map((floor, floorIndex) => (
+                        <li key={floorIndex}>
+                        <h3>Floor {floor.floorNumber}</h3>
+                            <ul>
+                             {floor.slots.map((slot, slotIndex) => (
+                                <li key={slotIndex} style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ marginRight: '10px' }}>
+                                    <p>Size: {slot.size}</p>
+                                    <p>Slots Available: {slot.slotsAvailable}</p>
+                                </div>
+                                    <button className='btn btn-warning' onClick={() => handleSlotSelection(floorIndex, slotIndex)}>Select Slot</button>
+                                </li>
                                     ))}
                                 </ul>
                             </li>

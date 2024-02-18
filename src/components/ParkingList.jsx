@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function FreeSlot() {
+export default function ParkingList() {
     const navigate = useNavigate()
     const [parkingLots, setParkingLots] = useState([]);
 
@@ -20,13 +20,13 @@ export default function FreeSlot() {
     }, []);
 
     const handleSlot = (parkingLotId) => {
-        navigate(`/booking/free/${parkingLotId}`);
+        navigate(`/booking/${parkingLotId}`);
     };
     
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Parking Lots</h1>
+            <h1 className="mb-4" >Parking Lots</h1>
             <ul className="list-group">
                 {parkingLots.map((parkingLot, index) => (
                     <li key={index} className="list-group-item">
@@ -47,7 +47,7 @@ export default function FreeSlot() {
                                 </li>
                             ))}
                         </ul>
-                        <button className='btn btn-success' onClick={() => handleSlot(parkingLot._id)}>Free Slot</button>
+                        <button className='btn btn-success' onClick={() => handleSlot(parkingLot._id)}>Book Slot</button>
 
                     </li>
                 ))}

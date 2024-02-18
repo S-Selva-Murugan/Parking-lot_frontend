@@ -84,7 +84,7 @@ export default function Parking() {
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">Create Parking Lot</h1>
+            <h1 className="mb-4" >Create Parking Lot</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name:</label>
