@@ -23,7 +23,6 @@ export default function Home() {
             }}
         >
             <div className="text-center position-relative z-index-1">
-                <h1 className="text-light">Home page</h1>
                 <button
                     className="btn btn-warning"
                     style={{ marginTop: "60px" }}

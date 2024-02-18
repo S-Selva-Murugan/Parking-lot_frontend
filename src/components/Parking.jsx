@@ -41,10 +41,8 @@ export default function Parking() {
         try {
             const response = await axios.post('http://localhost:4545/api/parking/create', parkingData);
             console.log('Response:', response.data);
-            // Handle success response here
         } catch (error) {
             console.error('Error:', error);
-            // Handle error here
         }
     };
 

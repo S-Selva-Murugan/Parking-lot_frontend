@@ -41,9 +41,7 @@ export default function Free() {
 
     const handleSubmit = async () => {
         try {
-            // Make PUT request to update parking lot with new data
             const response = await axios.put(`http://localhost:4545/api/parking/${id}`, parkingLot);
-            // Update parking lot state with the response data
             console.log(response.data)
             setParkingLot(response.data);
             navigate("/")
