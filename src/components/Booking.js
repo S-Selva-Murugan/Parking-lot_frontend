@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function Booking() {
     const { id } = useParams();
@@ -34,6 +35,11 @@ export default function Booking() {
             // Update parking lot state with the response data
             console.log(response.data)
             setParkingLot(response.data);
+            Swal.fire({
+                title: "Slots allotted!",
+                text: "",
+                icon: "success"
+              });
         } catch (error) {
             console.error('Error updating parking lot:', error);
         }

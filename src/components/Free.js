@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function Free() {
     const { id } = useParams();
@@ -22,9 +23,18 @@ export default function Free() {
 
     const handleSlotSelection = (floorIndex, slotIndex) => {
         const updatedParkingLot = { ...parkingLot };
-        updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable++;
-        setParkingLot(updatedParkingLot);
-        setSelectedSlot({ floorIndex, slotIndex });
+        const currentSlotsAvailable = updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable;
+        if (currentSlotsAvailable < 100) {
+            updatedParkingLot.floors[floorIndex].slots[slotIndex].slotsAvailable++;
+            setParkingLot(updatedParkingLot);
+            setSelectedSlot({ floorIndex, slotIndex });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "You have reached maximum slots!",
+              });
+        }
     };
 
     const handleSubmit = async () => {
@@ -34,6 +44,11 @@ export default function Free() {
             // Update parking lot state with the response data
             console.log(response.data)
             setParkingLot(response.data);
+            Swal.fire({
+                title: "Slots deallotted!",
+                text: "Welcome again!",
+                icon: "success"
+              });
         } catch (error) {
             console.error('Error updating parking lot:', error);
         }
