@@ -15,17 +15,14 @@ export default function Home() {
         <div
             className="d-flex justify-content-center align-items-center"
             style={{
-                backgroundImage: `url(https://static.tnn.in/thumb/msid-98974681,thumbsize-78984,width-1280,height-720,resizemode-75/98974681.jpg)`,
-                height:"585px", 
-                
-                
-                opacity:"90%"
+                backgroundImage: `url(https://png.pngtree.com/background/20230425/original/pngtree-parking-lot-full-of-blue-picture-image_2478450.jpg)`,
+                height:"585px",
             }}
         >
             <div className="text-center position-relative z-index-1">
                 <button
                     className="btn btn-warning"
-                    style={{ marginTop: "60px" }}
+                    style={{ marginTop: "60px",width:"100px", height:"50px" }}
                     onClick={handleSlot}
                 >
                     Get slot
@@ -34,7 +31,7 @@ export default function Home() {
                 <br />
                 <button
                     className="btn btn-warning"
-                    style={{ marginTop: "50px" }}
+                    style={{ marginTop: "50px", width:"100px", height:"50px" }}
                     onClick={handleFreeSlot}
                 >
                     Free slot
