@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Booking from './components/Booking';
 import FreeSlot from './components/FreeSlot';
 import Free from './components/Free';
+import DeleteLot from './components/DeleteLot';
 
 export default function App() {
   return (
@@ -24,7 +25,7 @@ export default function App() {
           <a class="nav-link active fw-bold" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold" href="/parking-list">Parking lots</a>
+          <a class="nav-link fw-bold" href="/list">Parking lots</a>
         </li>
         <li class="nav-item">
           <a class="nav-link fw-bold" href="/create-slot">Create a lot</a>
@@ -41,6 +42,7 @@ export default function App() {
           <Route path='/booking/:id' element={<Booking />} />
           <Route path='/free-slot' element={<FreeSlot/>} />
           <Route path='/booking/free/:id' element={<Free/>} />
+          <Route path='/list' element={<DeleteLot/>} />
         </Routes>
       </div>
     </BrowserRouter>

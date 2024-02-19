@@ -32,7 +32,11 @@ export default function Parking() {
     const handleSlotChange = (floorIndex, slotIndex, event) => {
         const { name, value } = event.target;
         if (name === "slotsAvailable" && parseInt(value) > 100) {
-            alert("Slots Available cannot exceed 100.");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Slots Available cannot exceed 100!",
+              });
             return; 
         }
         const newFloors = [...parkingData.floors];
