@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import Card from 'react-bootstrap/Card';
 
 export default function Free() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { id } = useParams();
     const [parkingLot, setParkingLot] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState(null);
@@ -57,7 +58,7 @@ export default function Free() {
 
     return (
         <div>
-            <h1 >Free slot page</h1>
+            <h1 style={{marginLeft:"550px"}}>Free slots</h1>
             {parkingLot && (
                 <div>
                     <h2>{parkingLot.name}</h2>
@@ -65,25 +66,30 @@ export default function Free() {
                     <p>Floors:</p>
                     <ul>
                         {parkingLot.floors.map((floor, floorIndex) => (
-                            <li key={floorIndex}>
-                                <h3>Floor {floor.floorNumber}</h3>
-                                <ul>
-                                    {floor.slots.map((slot, slotIndex) => (
-                                        <li key={slotIndex} style={{ display: 'flex', alignItems: 'center' }}>
-                                            <div style={{ marginRight: '10px' }}>
-                                                <p>Size: {slot.size}</p>
-                                                <p>Slots Available: {slot.slotsAvailable}</p>
-                                            </div>
-                                            <button className='btn btn-warning' onClick={() => handleSlotSelection(floorIndex, slotIndex)}>Free Slot</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+                            <Card key={floorIndex} style={{ marginBottom: '20px', width: "700px", marginLeft: "50px" }}>
+                                <Card.Header>Floor {floor.floorNumber}</Card.Header>
+                                <Card.Body>
+                                    <ul>
+                                        {floor.slots.map((slot, slotIndex) => (
+                                            <li key={slotIndex} style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div style={{ marginRight: '10px' }}>
+                                                    <p>Size: {slot.size}</p>
+                                                    <p>Slots Available: {slot.slotsAvailable}</p>
+                                                </div>
+                                                <button className='btn btn-warning' onClick={() => handleSlotSelection(floorIndex, slotIndex)}>Free Slot</button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </Card.Body>
+                            </Card>
                         ))}
                     </ul>
                 </div>
             )}
-            <button onClick={handleSubmit} className='btn btn-success'>Submit</button>
+            <button  style={{marginBottom:"10px", marginLeft:"80px"}} 
+             onClick={handleSubmit} 
+             className='btn btn-success'
+             >Submit</button>
         </div>
     );
 }

@@ -16,7 +16,7 @@ export default function Home() {
             className="d-flex justify-content-center align-items-center"
             style={{
                 backgroundImage: `url(https://static.tnn.in/thumb/msid-98974681,thumbsize-78984,width-1280,height-720,resizemode-75/98974681.jpg)`,
-                height:"527px", 
+                height:"585px", 
                 
                 
                 opacity:"90%"
