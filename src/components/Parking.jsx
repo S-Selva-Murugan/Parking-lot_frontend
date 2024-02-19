@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function Parking() {
+    const navigate = useNavigate()
     const [parkingData, setParkingData] = useState({
         name: '',
         location: '',
@@ -28,8 +31,21 @@ export default function Parking() {
 
     const handleSlotChange = (floorIndex, slotIndex, event) => {
         const { name, value } = event.target;
+        if (name === "slotsAvailable" && parseInt(value) > 100) {
+            alert("Slots Available cannot exceed 100.");
+            return; 
+        }
         const newFloors = [...parkingData.floors];
         newFloors[floorIndex].slots[slotIndex][name] = value;
+        setParkingData(prevData => ({
+            ...prevData,
+            floors: newFloors,
+        }));
+    };
+
+    const handleSizeButtonClick = (floorIndex, slotIndex, size) => {
+        const newFloors = [...parkingData.floors];
+        newFloors[floorIndex].slots[slotIndex].size = size;
         setParkingData(prevData => ({
             ...prevData,
             floors: newFloors,
@@ -41,6 +57,12 @@ export default function Parking() {
         try {
             const response = await axios.post('http://localhost:4545/api/parking/create', parkingData);
             console.log('Response:', response.data);
+            navigate("/")
+            Swal.fire({
+                title: "Slot created",
+                text: "",
+                icon: "success"
+              });
         } catch (error) {
             console.error('Error:', error);
         }
@@ -81,7 +103,7 @@ export default function Parking() {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" style={{width:"600px"}}>
             <h1 className="mb-4" >Create Parking Lot</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -125,7 +147,14 @@ export default function Parking() {
                                 <div key={slotIndex} className="mb-3">
                                     <h4>Slot {slotIndex + 1}</h4>
                                     <div className="mb-3">
-                                        <label htmlFor={`size-${floorIndex}-${slotIndex}`} className="form-label">Size:</label>
+                                        <label htmlFor={`size-${floorIndex}-${slotIndex}`} className="form-label">Select a size:</label>
+                                        <div>
+                                            <button type="button" className="btn btn-warning me-2" onClick={() => handleSizeButtonClick(floorIndex, slotIndex, "Small")}>Small</button>
+                                            <button type="button" className="btn btn-warning me-2" onClick={() => handleSizeButtonClick(floorIndex, slotIndex, "Medium")}>Medium</button>
+                                            <button type="button" className="btn btn-warning me-2" onClick={() => handleSizeButtonClick(floorIndex, slotIndex, "Large")}>Large</button>
+                                            <button type="button" className="btn btn-warning me-2" onClick={() => handleSizeButtonClick(floorIndex, slotIndex, "XLarge")}>XLarge</button>
+                                        </div>
+                                        <br/>
                                         <input
                                             type="text"
                                             className="form-control"
@@ -136,13 +165,14 @@ export default function Parking() {
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor={`slotsAvailable-${floorIndex}-${slotIndex}`} className="form-label">Slots Available:</label>
+                                        <label htmlFor={`slotsAvailable-${floorIndex}-${slotIndex}`} className="form-label">Slots Available(max-100):</label>
                                         <input
                                             type="number"
                                             className="form-control"
                                             id={`slotsAvailable-${floorIndex}-${slotIndex}`}
                                             name="slotsAvailable"
                                             value={slot.slotsAvailable}
+                                            max={100}
                                             onChange={(e) => handleSlotChange(floorIndex, slotIndex, e)}
                                         />
                                     </div>
